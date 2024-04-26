@@ -28,34 +28,30 @@
 <body>
 
 <div id="container">
-    <textarea id="inputBox" placeholder="Enter words and numbers (e.g., Nala 3)" rows="5" cols="50"></textarea>
+    <textarea id="inputBox" placeholder="Enter words and numbers (e.g., Nala Rantalai 3, Koko 2)" rows="5" cols="50"></textarea>
     <br>
     <button onclick="generateWordList()">Generate</button>
     <br>
     <textarea id="outputBox" rows="10" cols="50" readonly></textarea>
     <br>
     <label id="lastIndexLabel"></label>
-    <br>
-    <label id="randomIndexLabel"></label> <!-- New label for displaying the random index -->
-    <br>
-    <label id="randomWordLabel"></label>
+	<br>
+    <label id="randomIndexLabel"></label>
 </div>
 
 <script>
 function generateWordList() {
     var inputText = document.getElementById("inputBox").value;
-    var lines = inputText.split('\n'); // Split input into lines
+    var lines = inputText.split(/[,\r\n]+/); // Split input into lines using comma or linebreak as delimiters
     var wordList = [];
     var index = 1; // Start index at 1
-    var wordIndexMap = {}; // Map to store words with their corresponding index
     lines.forEach(line => {
         var parts = line.trim().split(/\s+/); // Split line into word and number
-        var word = parts[0]; // Extract word
-        var count = parseInt(parts[1]); // Extract number and parse to integer
+        var word = parts.slice(0, -1).join(" "); // Extract word by joining parts except the last one
+        var count = parseInt(parts[parts.length - 1]); // Extract number and parse to integer
         if (!isNaN(count)) { // Check if count is a valid number
             for (var i = 0; i < count; i++) {
                 wordList.push(index + ". " + word); // Add indexed word to list 'count' times
-                wordIndexMap[index] = word; // Store word with index in the map
                 index++; // Increment index
             }
         }
@@ -63,8 +59,8 @@ function generateWordList() {
 
     document.getElementById("outputBox").value = wordList.join("\n"); // Display word list
     document.getElementById("lastIndexLabel").textContent = "Last index: " + (index - 1); // Display last index
-
-    // Select a random index
+	
+	// Select a random index
     var randomIndex = Math.floor(Math.random() * (index - 1)) + 1;
     document.getElementById("randomIndexLabel").textContent = "Random index: " + randomIndex;
 }
