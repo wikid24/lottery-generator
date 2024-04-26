@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Random Word Generator</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f4f4f4;
+    }
+    #container {
+        text-align: center;
+    }
+    input[type="text"], button {
+        padding: 10px;
+        margin: 5px;
+        font-size: 16px;
+    }
+</style>
+</head>
+<body>
+
+<div id="container">
+    <input type="text" id="inputBox" placeholder="Enter words here">
+    <button onclick="generateRandomWord()">Generate</button>
+    <input type="text" id="outputBox" readonly>
+</div>
+
+<script>
+function generateRandomWord() {
+    var inputText = document.getElementById("inputBox").value;
+    var words = inputText.split(/\s+/).filter(word => word.trim() !== ''); // Split input text into words
+    if (words.length > 0) {
+        var randomIndex = Math.floor(Math.random() * words.length); // Generate random index
+        document.getElementById("outputBox").value = words[randomIndex]; // Display random word
+    } else {
+        document.getElementById("outputBox").value = "No words entered";
+    }
+}
+</script>
+
+</body>
+</html>
